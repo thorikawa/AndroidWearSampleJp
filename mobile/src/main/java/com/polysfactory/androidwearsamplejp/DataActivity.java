@@ -1,14 +1,9 @@
 package com.polysfactory.androidwearsamplejp;
 
 import android.app.Activity;
-import android.app.Notification;
-import android.app.PendingIntent;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,22 +17,24 @@ import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataItem;
 import com.google.android.gms.wearable.DataItemBuffer;
 import com.google.android.gms.wearable.DataMapItem;
+import com.google.android.gms.wearable.MessageApi;
 import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
 
-public class MyActivity extends Activity {
+public class DataActivity extends Activity {
 
     private static final String TAG = "TEST";
     private static final String COUNT_KEY = "COUNT_KEY";
     private static final String PATH = "/count";
-    private static final String ACTION_OPEN_CUSTOM_ACTIVITY = "com.polysfactory.androidwearsamplejp.action_open_custom_activity";
+    private static final String START_ACTIVITY_PATH = "/start/MainActivity";
 
     private int count = 0;
     private GoogleApiClient mGoogleApiClient;
@@ -45,18 +42,20 @@ public class MyActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my);
+        setContentView(R.layout.activity_data);
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this).addApi(Wearable.API).addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
-            @Override
-            public void onConnected(Bundle bundle) {
-            }
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Wearable.API)
+                .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                    @Override
+                    public void onConnected(Bundle bundle) {
+                    }
 
-            @Override
-            public void onConnectionSuspended(int i) {
+                    @Override
+                    public void onConnectionSuspended(int i) {
 
-            }
-        }).build();
+                    }
+                }).build();
         mGoogleApiClient.connect();
 
         Button button = (Button) findViewById(R.id.button);
@@ -88,11 +87,16 @@ public class MyActivity extends Activity {
             }
         });
 
-        Button notificationButton = (Button) findViewById(R.id.button_notification);
-        notificationButton.setOnClickListener(new View.OnClickListener() {
+        ((Button) findViewById(R.id.button_open_wear_activity)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendNotification();
+                new AsyncTask<Void, Void, Void>() {
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        fireMessageApi();
+                        return null;
+                    }
+                }.execute();
             }
         });
     }
@@ -166,21 +170,25 @@ public class MyActivity extends Activity {
         }.execute();
     }
 
-    private void sendNotification() {
-        Intent intent = new Intent(ACTION_OPEN_CUSTOM_ACTIVITY);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-
-        NotificationCompat.Builder notificationBuilder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_launcher)
-                        .setContentTitle("First Notification")
-                        .setContentText("Hello world notification!")
-                        .extend(new NotificationCompat.WearableExtender().setDisplayIntent(pendingIntent));
-
-        Notification notification = notificationBuilder.build();
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-
-        notificationManager.notify(101, notification);
+    private void fireMessageApi() {
+        Collection<String> nodes = getNodes();
+        for (String node : nodes) {
+            MessageApi.SendMessageResult result =
+                    Wearable.MessageApi.sendMessage(mGoogleApiClient, node, START_ACTIVITY_PATH, null).await();
+            if (!result.getStatus().isSuccess()) {
+                Log.e(TAG, "ERROR: failed to send Message: " + result.getStatus());
+            }
+        }
     }
+
+    private Collection<String> getNodes() {
+        HashSet<String> results = new HashSet<String>();
+        NodeApi.GetConnectedNodesResult nodes =
+                Wearable.NodeApi.getConnectedNodes(mGoogleApiClient).await();
+        for (Node node : nodes.getNodes()) {
+            results.add(node.getId());
+        }
+        return results;
+    }
+
 }

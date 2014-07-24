@@ -1,5 +1,6 @@
 package com.polysfactory.androidwearsamplejp;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import com.google.android.gms.wearable.DataItem;
 import com.google.android.gms.wearable.DataItemBuffer;
 import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.DataMapItem;
+import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
@@ -28,6 +30,7 @@ public class DataLayerListenerService extends WearableListenerService {
     private static final String COUNT_KEY = "COUNT_KEY";
     private GoogleApiClient mGoogleApiClient;
     private int count = 0;
+    private static final String START_ACTIVITY_PATH = "/start/MainActivity";
 
     @Override
     public void onCreate() {
@@ -48,6 +51,15 @@ public class DataLayerListenerService extends WearableListenerService {
                 })
                 .build();
         mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onMessageReceived(MessageEvent messageEvent) {
+        if (START_ACTIVITY_PATH.equals(messageEvent.getPath())) {
+            Intent intent = new Intent(this, MyActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
     }
 
     @Override
