@@ -33,7 +33,7 @@ public class DataActivity extends Activity {
 
     private static final String TAG = "TEST";
     private static final String COUNT_KEY = "COUNT_KEY";
-    private static final String PATH = "/count";
+    private static final String COUNT_PATH = "/count";
     private static final String START_ACTIVITY_PATH = "/start/MainActivity";
 
     private int count = 0;
@@ -62,7 +62,7 @@ public class DataActivity extends Activity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PutDataMapRequest dataMap = PutDataMapRequest.create(PATH);
+                PutDataMapRequest dataMap = PutDataMapRequest.create(COUNT_PATH);
                 Log.d(TAG, "put url:" + dataMap.getUri());
                 dataMap.getDataMap().putInt(COUNT_KEY, count++);
                 PutDataRequest request = dataMap.asPutDataRequest();
@@ -147,7 +147,7 @@ public class DataActivity extends Activity {
                     Log.d(TAG, "val=[" + DataMapItem.fromDataItem(dataItem).getDataMap().get(COUNT_KEY) + "]");
                 }
 
-                Uri uri = new Uri.Builder().scheme(PutDataRequest.WEAR_URI_SCHEME).authority("abcd77b0-5828-4f46-b94e-3a3df9e97f98").path(PATH).build();
+                Uri uri = new Uri.Builder().scheme(PutDataRequest.WEAR_URI_SCHEME).authority("abcd77b0-5828-4f46-b94e-3a3df9e97f98").path(COUNT_PATH).build();
                 Log.d(TAG, "access to:[" + uri.toString() + "]");
                 Wearable.DataApi.getDataItem(mGoogleApiClient, uri).setResultCallback(new ResultCallback<DataApi.DataItemResult>() {
                     @Override
