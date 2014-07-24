@@ -39,6 +39,12 @@ public class NotificationActivity extends Activity {
                 sendNotificationWithVoiceInputAction(context);
             }
         });
+        findViewById(R.id.page_notification).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendNotificationWithPages(context);
+            }
+        });
     }
 
     private void sendBasicNotification(Context context) {
@@ -126,4 +132,23 @@ public class NotificationActivity extends Activity {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         notificationManager.notify(200, notification);
     }
+
+    private void sendNotificationWithPages(Context context) {
+        Notification page =
+                new NotificationCompat.Builder(context)
+                        .setStyle(new NotificationCompat.BigTextStyle().bigText("メンチカツ定食 $7.99"))
+                        .build();
+
+        Notification notification =
+                new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setContentTitle("xxレストラン通信")
+                        .setContentText("本日の日替わりランチ")
+                        .extend(new NotificationCompat.WearableExtender().addPage(page))
+                        .build();
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        notificationManager.notify(300, notification);
+    }
+
 }

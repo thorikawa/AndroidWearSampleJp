@@ -33,5 +33,11 @@
         android:layout_below="@id/stacking_notification"
         android:layout_alignParentStart="true" />
 
-
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Notification with pages"
+        android:id="@+id/page_notification"
+        android:layout_below="@id/voice_input_notification"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
