@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class NotificationActivity extends Activity {
+public class NotificationEmbeddedActivity extends Activity {
 
     public static final String EXTRA_KEY_COUNT = "extra_key_count";
 

@@ -14,7 +14,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".MyActivity"
+            android:name=".WatchActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,7 +24,7 @@
         </activity>
 
         <activity
-            android:name=".NotificationActivity"
+            android:name=".NotificationEmbeddedActivity"
             android:allowEmbedded="true"
             android:label="@string/app_name"></activity>
 
@@ -34,16 +34,6 @@
             </intent-filter>
         </service>
 
-        <activity
-            android:name=".EmbeddedActivity"
-            android:label="@string/title_activity_embedded"
-            android:exported="true"
-            android:allowEmbedded="true"
-            android:taskAffinity="">
-            <intent-filter>
-                <action android:name="com.polysfactory.androidwearsamplejp.action_open_custom_activity" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

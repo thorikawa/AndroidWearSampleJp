@@ -25,7 +25,7 @@ public class DataLayerListenerService extends WearableListenerService {
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
         if (START_ACTIVITY_PATH.equals(messageEvent.getPath())) {
-            Intent intent = new Intent(this, MyActivity.class);
+            Intent intent = new Intent(this, WatchActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             return;
@@ -41,8 +41,8 @@ public class DataLayerListenerService extends WearableListenerService {
                 int count = dataMap.getInt(COUNT_KEY);
 
                 // android:allowEmbedded="true" is required for target activity
-                Intent intent = new Intent(this, NotificationActivity.class);
-                intent.putExtra(NotificationActivity.EXTRA_KEY_COUNT, count);
+                Intent intent = new Intent(this, NotificationEmbeddedActivity.class);
+                intent.putExtra(NotificationEmbeddedActivity.EXTRA_KEY_COUNT, count);
                 PendingIntent pendingIntent =
                         PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
