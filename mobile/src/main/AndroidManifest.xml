@@ -13,23 +13,26 @@
 
         <activity
             android:name=".DataActivity"
-            android:label="@string/app_name">
+            android:label="@string/title_activity_data"></activity>
+        <activity
+            android:name=".NotificationActivity"
+            android:label="@string/title_activity_notification" />
+        <activity
+            android:name=".NotificationLandingActivity"
+            android:label="@string/title_activity_notification_landing" />
+        <activity
+            android:name=".VoiceInputReceiverActivity"
+            android:label="@string/title_activity_voice_reply" />
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
 
-        <activity
-            android:name=".NotificationActivity"
-            android:label="@string/title_activity_notification"></activity>
-        <activity
-            android:name=".NotificationLandingActivity"
-            android:label="@string/title_activity_notification_landing" />
-        <activity
-            android:name=".VoiceReplyActivity"
-            android:label="@string/title_activity_voice_reply"></activity>
+        </activity>
     </application>
 
 </manifest>

@@ -7,5 +7,7 @@
     <string name="title_activity_notification">NotificationActivity</string>
     <string name="title_activity_notification_landing">NotificationLandingActivity</string>
     <string name="title_activity_voice_reply">VoiceReplyActivity</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_data">DataActivity</string>
 
 </resources>

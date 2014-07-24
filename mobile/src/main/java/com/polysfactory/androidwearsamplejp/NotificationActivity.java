@@ -111,7 +111,7 @@ public class NotificationActivity extends Activity {
                 .setChoices(replyChoices)
                 .build();
 
-        Intent replyIntent = new Intent(this, VoiceReplyActivity.class);
+        Intent replyIntent = new Intent(this, VoiceInputReceiverActivity.class);
         PendingIntent replyPendingIntent =
                 PendingIntent.getActivity(this, 0, replyIntent,
                         PendingIntent.FLAG_UPDATE_CURRENT);
