@@ -23,6 +23,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".NotificationActivity"
+            android:allowEmbedded="true"
+            android:label="@string/app_name"></activity>
+
         <service android:name=".DataLayerListenerService">
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />

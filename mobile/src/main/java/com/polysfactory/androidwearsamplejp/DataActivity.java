@@ -93,7 +93,7 @@ public class DataActivity extends Activity {
                 new AsyncTask<Void, Void, Void>() {
                     @Override
                     protected Void doInBackground(Void... params) {
-                        fireMessageApi();
+                        sendMessageToStartActivity();
                         return null;
                     }
                 }.execute();
@@ -170,7 +170,7 @@ public class DataActivity extends Activity {
         }.execute();
     }
 
-    private void fireMessageApi() {
+    private void sendMessageToStartActivity() {
         Collection<String> nodes = getNodes();
         for (String node : nodes) {
             MessageApi.SendMessageResult result =

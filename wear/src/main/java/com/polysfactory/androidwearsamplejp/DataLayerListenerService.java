@@ -1,5 +1,8 @@
 package com.polysfactory.androidwearsamplejp;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,6 +34,7 @@ public class DataLayerListenerService extends WearableListenerService {
     private GoogleApiClient mGoogleApiClient;
     private int count = 0;
     private static final String START_ACTIVITY_PATH = "/start/MainActivity";
+    private static final String UPDATE_NOTIFICATION_PATH = "/updated/notification";
 
     @Override
     public void onCreate() {
@@ -59,16 +63,36 @@ public class DataLayerListenerService extends WearableListenerService {
             Intent intent = new Intent(this, MyActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+            return;
         }
     }
 
     @Override
     public void onDataChanged(DataEventBuffer dataEvents) {
-        super.onDataChanged(dataEvents);
         for (DataEvent event : dataEvents) {
-            Log.d(TAG, event.getDataItem().getUri().toString());
             DataMap dataMap = DataMapItem.fromDataItem(event.getDataItem()).getDataMap();
-            Log.d(TAG, "" + dataMap.getInt(COUNT_KEY));
+            int count = dataMap.getInt(COUNT_KEY);
+            Log.d(TAG, "updated:" + count);
+
+            // android:allowEmbedded="true" is required for target activity
+            Intent intent = new Intent(this, NotificationActivity.class);
+            intent.putExtra(NotificationActivity.EXTRA_KEY_COUNT, count);
+            PendingIntent pendingIntent =
+                    PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+            Notification notification = new Notification.Builder(this)
+                    .setSmallIcon(R.drawable.ic_launcher)
+                    .extend(
+                            new Notification.WearableExtender()
+                                    .setHintHideIcon(true)
+                                    .setDisplayIntent(pendingIntent)
+                    )
+                    .build();
+
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            notificationManager.notify(1000, notification);
+
+            break;
         }
     }
 
