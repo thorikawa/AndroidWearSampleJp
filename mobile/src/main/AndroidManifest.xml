@@ -25,7 +25,7 @@
             android:label="@string/title_activity_voice_reply" />
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_main">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
