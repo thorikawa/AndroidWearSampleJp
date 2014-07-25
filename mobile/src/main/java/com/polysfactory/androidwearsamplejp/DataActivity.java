@@ -45,18 +45,7 @@ public class DataActivity extends Activity {
         ((Button) findViewById(R.id.button_send_count)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PutDataMapRequest dataMap = PutDataMapRequest.create(COUNT_PATH);
-                dataMap.getDataMap().putInt(COUNT_KEY, ++count);
-                PutDataRequest request = dataMap.asPutDataRequest();
-                PendingResult<DataApi.DataItemResult> pendingResult = Wearable.DataApi
-                        .putDataItem(mGoogleApiClient, request);
-                pendingResult.setResultCallback(new ResultCallback<DataApi.DataItemResult>() {
-                    @Override
-                    public void onResult(DataApi.DataItemResult dataItemResult) {
-                        Log.d(TAG, "count updated:" + count);
-                    }
-                });
-
+                sendCount();
             }
         });
 
@@ -99,6 +88,20 @@ public class DataActivity extends Activity {
     private String getLocalNodeId() {
         NodeApi.GetLocalNodeResult nodeResult = Wearable.NodeApi.getLocalNode(mGoogleApiClient).await();
         return nodeResult.getNode().getId();
+    }
+
+    private void sendCount() {
+        PutDataMapRequest dataMap = PutDataMapRequest.create(COUNT_PATH);
+        dataMap.getDataMap().putInt(COUNT_KEY, ++count);
+        PutDataRequest request = dataMap.asPutDataRequest();
+        PendingResult<DataApi.DataItemResult> pendingResult = Wearable.DataApi
+                .putDataItem(mGoogleApiClient, request);
+        pendingResult.setResultCallback(new ResultCallback<DataApi.DataItemResult>() {
+            @Override
+            public void onResult(DataApi.DataItemResult dataItemResult) {
+                Log.d(TAG, "count updated:" + count);
+            }
+        });
     }
 
     private void restoreCurrentCount() {
