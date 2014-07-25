@@ -12,4 +12,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/hello_square" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_notification_to_open_activity"
+        android:text="Send notification to open Activity" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_notification_display_intent"
+        android:text="Send notification with display Intent" />
 </LinearLayout>
