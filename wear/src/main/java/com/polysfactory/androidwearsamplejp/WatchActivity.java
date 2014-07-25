@@ -56,8 +56,8 @@ public class WatchActivity extends Activity {
                 .extend(new NotificationCompat.WearableExtender().setContentAction(0).setHintHideIcon(true))
                 .build();
 
-        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
-        notificationManagerCompat.notify(3000, notification);
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        notificationManager.notify(3000, notification);
     }
 
     private void sendNotificationWithDisplayIntent(Context context) {
@@ -72,7 +72,7 @@ public class WatchActivity extends Activity {
                 .extend(new NotificationCompat.WearableExtender().setDisplayIntent(pendingViewIntent))
                 .build();
 
-        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
-        notificationManagerCompat.notify(4000, notification);
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        notificationManager.notify(4000, notification);
     }
 }
